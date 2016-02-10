@@ -1,1 +1,6 @@
+# Build dirs
 target
+
+# Soft
+jenkins.war
+sonarqube-5.1
