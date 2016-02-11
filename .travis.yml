@@ -1,5 +1,5 @@
-script:
-# TODO build AL, test AL
-sh -c 'cd AL/TP1 && mvn compile && mvn test'
+language: java
+# Build & test AL
+script: sh -c 'cd AL/TP1 && mvn compile && mvn test'
 # TODO build JXW, test JXW
 # TODO build SPP, test SPP
