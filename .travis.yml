@@ -5,5 +5,5 @@ script:
   # Build & test JXW
   - sh -c 'cd JXW/TP1 && mvn compile && mvn test && mvn site'
   - sh -c 'cd JXW/TP2/WSConcatClient && mvn compile && mvn test'
+#TODO fix test  - sh -c 'cd JXW/TP2/WSConcatClient && mvn compile && mvn test'
   - sh -c 'cd JXW/TP2/WSConcatService && mvn compile && mvn test'
-# TODO build SPP, test SPP
