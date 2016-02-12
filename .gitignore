@@ -5,3 +5,9 @@ bin
 # Soft
 jenkins.war
 sonarqube-5.1
+
+# Latex
+*.aux
+*.pyg
+*.log
+*.out
