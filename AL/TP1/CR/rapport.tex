@@ -6,7 +6,7 @@
 \usepackage[frenchb]{babel}
 \usepackage[a4paper]{geometry}
 \usepackage{minted}
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{textcomp}
 
 \begin{document}
@@ -43,13 +43,78 @@
 
 \section{Maven}
 \subsection{Description}
+Maven est un outil de gestion et de compréhension de projets. Maven fournit différentes fonctionnalités de :
+Construction, documentation, rapport, gestion des dépendances, gestion des sources, mise à jour de projet et déploiement. \\\\
+Chaque projet Maven est décrit par un fichier pom.xml présent à la racine du répertoire du projet. Ce fichier
+contient tous les éléments permettant de gérer le cycle de vie du projet.
 \subsection{Utilisation}
 \subsubsection{Génération de projets}
+Pour créer un simple projet java, on utilise l'archetype (un template de projet qui permet de gagner du temps et de respecter une certaine convention) maven suivant : \\
+\textit{maven-archetype-quickstart}. \\
+La commande utilisées est la suivante : \textit{mvn archetype:generate} \\
+On doit fournir un \textit{groupId} (identifiant du groupe de projets)et un \textit{artefactid} (identifiant du projet).\\
 \subsubsection{Génération de rapports}
+Pour générer la javadoc, on utilise le plugin \textit{maven-javadoc-plugin} qu'on ajoute dans la section <reporting> du pom.xml : 
+\begin{verbatim}
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+      </plugin>
+\end{verbatim}
+Ensuite, nous avons lancé la commande \textit{mvn site} qui génére un site web pour le projet et qui contient la javadoc du projet. \\\\
+Nous avons également ajouté le plugin \textit{maven-checkstyle-plugin} qui est un outil de contrôle du code et qui permet de vérifier le style du code source. La norme de codage utilisée par défaut est celle de Sun Microsystems (\textit{sun\_checks.xml}). Parmi les règles prédéfinies, on trouve aussi celles de Google (\textit{google\_checks.xml}). Par ailleurs, il est tout à fait possible d'utiliser un ensemble de règles personnalisées. Une nouvelle section apparait alors sur le site. \\\\
+Enfin, nous avons ajouté le plugin \textit{meven-jxr-plugin} qui permet de référencer et de trouver plus facilement des lignes de code spécifiques.	Ici, l'association avec le plugin checkstyle permet de lier automatiquement le numéro de la ligne pour chaque règle violée et le code source.
 \subsubsection{Génération de packages}
+Afin de personnaliser l'étape de compilation et l'étape de création des artefacts, nous avons ajouté le plugin \textit{maven-compiler-plugin} dans la section <build> du pom.xml qui permet de spécifier à Maven les options de configuration pour l'étape de compilation. En effet, la section <reporting> est dédiée à la génération des rapports. \\\\
+\begin{verbatim}
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+\end{verbatim}
+Nous avons également ajouté le plugin \textit{maven-jar-plugin} qui permet à Maven de packager le projet.\\
+\begin{verbatim}
+  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+\end{verbatim}
+Le dernier plugin ajouté est \textit{maven-assembly-plugin} qui permet de créer des archives.
+\begin{verbatim}
+<plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.5.5</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/assemblySrc.xml</descriptor>
+            <descriptor>src/assembly/assemblyBin.xml</descriptor>
+          </descriptors>
+          <finalName>TP1-Maven-${project.version}</finalName>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+\end{verbatim}
 \subsubsection{Tests}
+Pour éxécuter les tests du projet à chaque goal test ou à chaque compilation , on utilise le plugin
+\textit{maven-surefire-plugin}.
 \subsection{Pourquoi l'utiliser ?}
-
+Maven sert à compiler le code et s'occuper de la phase de production. Il s'occupe pour nous de la gestion des dépendances. On a juste à décrirer les dépendances du projet. C'est très pratique car on ne stocke pas toujours les librairies tiers sur les serveurs de collaboration, simplement une référence. Si un collègue récupère le projet et qu'il n'a pas les librairies, il ne peut pas le compiler, d'où Maven. \\\\
+Pour les gros projets séparés en plusieurs modules, Maven permet d'avoir une hiérarchie de projet, de la déclarer et d'avoir des choses en commun. Il permet de fixer les versions des librairies utiliées.
 
 \section{SonarQube}
 \subsection{Description}
