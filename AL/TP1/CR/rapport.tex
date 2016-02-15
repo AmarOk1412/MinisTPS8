@@ -118,24 +118,24 @@ Pour les gros projets séparés en plusieurs modules, Maven permet d'avoir une h
 
 \section{SonarQube}
 \subsection{Description}
-SonarQube est une plateforme open-source utilisée en QA. Cet outil sert à vérifier (analyse statique) les règles de mise en forme, la complexité d'un programme, les commentaires, les bugs potentielles. De nombreux modules existent pour ajouter la gestion d'autres languages. Les métriques utilisées sont :
+SonarQube est une plateforme open-source utilisée en QA. Cet outil sert à vérifier (analyse statique) les règles de mise en forme, la complexité d'un programme, les commentaires, les bugs potentiels. De nombreux modules existent pour ajouter la gestion d'autres languages. Les métriques utilisées sont :
 \begin{itemize}
 	\item Le nombre de lignes de code (ainsi que le nombre de fichiers, répertoires, de fonctions, de classes, etc)
 	\item Le pourcentage de code dupliqué
 	\item La complexité (mesurée en nombres de fonctions/classes/fichiers)
 	\item Les problèmes de code (des issues sont ouvertes, classées par ordre d'importance (Bloquant, critique, majeur, mineur, informatif))
 \end{itemize}
-Les problèmes détectés par l'outil sont paramétrables à l'aide d'un jeu de règles. Par défaut pour notre projet, nous avons utilisé le profil Sonar Way (Java) qui contient 192 règles par défaut. Ces règles sont activables/désactivables. De plus des règles peuvent être créées manuellement (nous n'avons pas testé cette fonctionnalité). Généralement les règles sont contiennent une description précise.
+Les problèmes détectés par l'outil sont paramétrables à l'aide d'un jeu de règles. Par défaut pour notre projet, nous avons utilisé le profil Sonar Way (Java) qui contient 192 règles par défaut. Ces règles sont activables/désactivables. De plus des règles peuvent être créées manuellement (nous n'avons pas testé cette fonctionnalité). Généralement les règles contiennent une description précise.
 \subsection{Utilisation}
-L'utilisation de cet outil fut assez basique. Elle consistait de lancer \emph{Sonar} et d'éxécuter~:
+L'utilisation de cet outil fut assez basique. Elle consistait à lancer \emph{Sonar} et à éxécuter~:
 \begin{verbatim}
 mvn sonar:sonar
 \end{verbatim}
 Ce qui permettait d'obtenir le projet sur l'interface de \emph{Sonar}. Ensuite, nous avons pu parcourir l'interface et paramétrer les profils pour détecter plus d'erreurs ou enlever les erreurs reconnues.
 \subsection{Pourquoi l'utiliser ?}
-Les outils d'analyse statiques sont très utilisées dans les projets, car un développeur ne travaille généralement pas seul. Du coup ce type d'outil est utile pour les raisons suivantes~:
+Les outils d'analyse statiques sont très utilisés dans les projets, car un développeur ne travaille généralement pas seul. Du coup ce type d'outil est utile pour les raisons suivantes~:
 \begin{itemize}
-	\item Un code propre est généralement un code facile à lire, à comprendre. ce qui facilie le travail aux personnes travaillant avec le développeur.
+	\item Un code propre est généralement un code facile à lire, à comprendre : ce qui facilite le travail aux personnes travaillant avec le développeur.
 	\item Une erreur dans le code est rapidement arrivée. Une analyse statique permet d'éviter des bugs faciles à trouver comme la double libération d'une zone mémoire, l'utilisation d'un pointeur non initialisé, etc.
 \end{itemize}
 Il existe d'autres outils d'analyse statiques qui n'ont pas été abordés dans ce TP, notament l'analyseur statique de \emph{clang}.
