@@ -27,53 +27,89 @@
     </repository>
   </repositories>
 
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.metro</groupId>
+      <artifactId>webservices-rt</artifactId>
+      <version>2.3</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.jvnet.jax-ws-commons</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
         <version>2.1</version>
         <configuration>
-          <sourceDestDir>${basedir}/src/main/java</sourceDestDir>
-          <wsdlUrls>
-            <wsdlUrl>
-              http://localhost:8080/services/concat?wsdl
-            </wsdlUrl>
-          </wsdlUrls>
-          <packageName>net.tuto2.ws.client</packageName>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>wsimport</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <executable>java</executable>
-          <arguments>
-            <argument>-classpath</argument>
-            <classpath />
-            <argument>
-              -Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true
-            </argument>
-            <argument>
-              net.tuto2.ws.client.App
-            </argument>
-          </arguments>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+          <!--<vmArgs>
+          <vmArg>-Djavax.xml.accessExternalSchema = all</vmArg>
+          <vmArg>-Dexec.mainClass=net.tuto2.ws.service.concat.App</vmArg>
+        </vmArgs>-->
+        <sourceDestDir>${basedir}/src/main/java</sourceDestDir>
+        <wsdlUrls>
+          <wsdlUrl>
+            http://localhost:8080/services/concat?wsdl
+          </wsdlUrl>
+        </wsdlUrls>
+        <packageName>net.tuto2.ws.client</packageName>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>wsimport</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+
+
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <executions>
+        <execution>
+          <goals>
+            <goal>exec</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <executable>java</executable>
+        <arguments>
+          <argument>-classpath</argument>
+          <classpath />
+          <argument>
+            -Dcom.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true
+          </argument>
+          <argument>
+            net.tuto2.ws.client.App
+          </argument>
+          <argument>
+            arg1
+          </argument>
+          <argument>
+            arg2
+          </argument>
+        </arguments>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
 </project>

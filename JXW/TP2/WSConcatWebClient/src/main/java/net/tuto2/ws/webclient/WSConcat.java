@@ -1,5 +1,5 @@
 
-package net.tuto2.ws.client;
+package net.tuto2.ws.webclient;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
