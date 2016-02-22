@@ -11,3 +11,7 @@ sonarqube-5.1
 *.pyg
 *.log
 *.out
+
+# Eclipse
+.classpath
+.project
