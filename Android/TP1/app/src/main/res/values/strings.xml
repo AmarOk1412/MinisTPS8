@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TP1</string>
+    <string name="title_activity_create"><AppTP1></AppTP1></string>
+    <string name="label_title">Title</string>
+    <string name="author">Author</string>
+    <string name="year">Year</string>
+    <string name="create">Create</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="addbook">Add book</string>
+</resources>
