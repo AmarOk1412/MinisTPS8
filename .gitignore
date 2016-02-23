@@ -15,3 +15,4 @@ sonarqube-5.1
 # Eclipse
 .classpath
 .project
+android-studio/*
