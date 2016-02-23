@@ -16,3 +16,11 @@ sonarqube-5.1
 .classpath
 .project
 android-studio/*
+.gradle
+local.properties
+.idea/workspace.xml
+.idea/libraries
+.DS_Store
+build
+captures
+
