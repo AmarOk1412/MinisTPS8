@@ -4,5 +4,8 @@ script:
   - sh -c 'cd AL/TP1 && mvn compile && mvn test'
   # Build & test JXW
   - sh -c 'cd JXW/TP1 && mvn compile && mvn test && mvn site'
-#TODO fix WSDL  - sh -c 'cd JXW/TP2/WSConcatClient && mvn compile && mvn test'
+  - sh -c 'cd JXW/TP3/gandi && mvn compile && mvn test'
+  #TODO fix WSDL  - sh -c 'cd JXW/TP2/WSConcatClient && mvn compile && mvn test'
   - sh -c 'cd JXW/TP2/WSConcatService && mvn compile && mvn test'
+  # Build & test MDI
+  - sh -c 'cd MDI/MDITP12 && mvn compile && mvn test'
