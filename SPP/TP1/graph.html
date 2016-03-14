@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>chart created with amCharts | amCharts</title>
+		<meta name="description" content="chart created using amCharts live editor" />
+		<style>
+body {
+  overflow: hidden;
+  background-color: #222222;
+}
+		</style>
+
+		<!-- amCharts javascript sources -->
+		<script src="http://www.amcharts.com/lib/3/amcharts.js" type="text/javascript"></script>
+		<script src="http://www.amcharts.com/lib/3/serial.js" type="text/javascript"></script>
+		<script src="http://www.amcharts.com/lib/3/themes/black.js" type="text/javascript"></script>
+
+		<!-- amCharts javascript code -->
+		<script type="text/javascript">
+			AmCharts.makeChart("chartdiv",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"startDuration": 1,
+					"theme": "black",
+					"categoryAxis": {
+						"gridPosition": "start"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "[[title]] of [[category]]:[[value]]",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "graph 1",
+							"valueField": "Temps"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "Temps (ms)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Temps d'execution en fonction du nombre de threads"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "3",
+							"Temps": "25"
+						},
+						{
+							"category": "7",
+							"Temps": "84"
+						},
+						{
+							"category": "11",
+							"Temps": "122"
+						},
+						{
+							"category": "15",
+							"Temps": "139"
+						},
+						{
+							"category": "19",
+							"Temps": "432"
+						},
+						{
+							"category": "23",
+							"Temps": "1098"
+						},
+						{
+							"category": "27",
+							"Temps": "334"
+						},
+						{
+							"category": "31",
+							"Temps": "298"
+						},
+						{
+							"category": "35",
+							"Temps": "1371"
+						},
+						{
+							"category": "39",
+							"Temps": "1635"
+						},
+						{
+							"category": "43",
+							"Temps": "2307"
+						}
+					]
+				}
+			);
+		</script>
+		
+		<script type="text/javascript">
+			AmCharts.makeChart("chartdiv2",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"startDuration": 1,
+					"theme": "black",
+					"categoryAxis": {
+						"gridPosition": "start"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "[[title]] of [[category]]:[[value]]",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "graph 1",
+							"valueField": "Temps"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "Temps (ms)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Temps d'execution en fonction du nombre de threads"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "3",
+							"Temps": "32"
+						},
+						{
+							"category": "7",
+							"Temps": "89"
+						},
+						{
+							"category": "11",
+							"Temps": "131"
+						},
+						{
+							"category": "15",
+							"Temps": "219"
+						},
+						{
+							"category": "19",
+							"Temps": "211"
+						},
+						{
+							"category": "23",
+							"Temps": "1038"
+						},
+						{
+							"category": "27",
+							"Temps": "158"
+						},
+						{
+							"category": "31",
+							"Temps": "2254"
+						},
+						{
+							"category": "35",
+							"Temps": "2133"
+						},
+						{
+							"category": "39",
+							"Temps": "1679"
+						},
+						{
+							"category": "43",
+							"Temps": "4702"
+						}
+					]
+				}
+			);
+		</script>
+	</head>
+	<body>
+		<div id="chartdiv" style="width: 100%; height: 400px; background-color: #222222;" ></div>
+		<br>
+		<div id="chartdiv2" style="width: 100%; height: 400px; background-color: #222222;" ></div>
+	</body>
+</html>
