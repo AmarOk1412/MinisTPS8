@@ -5,7 +5,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
 	@Override
 	public synchronized void up()
 	{
-		++_blocked;
+		if(_blocked != Integer.MAX_VALUE)
+			++_blocked;
 		if(_blocked <= 0)//Deblock if one is blocked
 			notify();
 	}
@@ -13,7 +14,8 @@ public class SemaphoreImplementation implements SemaphoreInterface {
 	@Override
 	public synchronized void down()
 	{
-		--_blocked;       //Block one
+		if(_blocked != Integer.MIN_VALUE)
+			--_blocked;       //Block one
 		if (_blocked < 0) //wait if not available
 			try {
 				wait();
