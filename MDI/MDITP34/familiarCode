@@ -1,0 +1,59 @@
+//Question 2
+fm2 = FM(CarEquipment : Healthing Comfort DrivingAndSafety;
+Healthing : (AirConditioning|AirConditioningFrontAndRear); 
+Comfort : [AutomaticHeadLights] ; 
+DrivingAndSafety : (SAControl|FrontFogLights)+; 
+(!AutomaticHeadLights | FrontFogLights) ; 
+(!(SAControl and FrontFogLights) | AirConditioningFrontAndRear); )
+
+s2 = configs fm2
+c2 = counting fm2
+core2 = cores fm2
+
+//Question 4
+fm2diff = FM(CarEquipment : Healthing Comfort DrivingAndSafety;
+Healthing : (AirConditioning|AirConditioningFrontAndRear);
+DrivingAndSafety : (SAControl|FrontFogLights)+; 
+FrontFogLights : [AutomaticHeadLights];
+(!(SAControl and FrontFogLights) | AirConditioningFrontAndRear); )
+s2diff = configs fm2diff
+c2diff = counting fm2diff
+core2diff = cores fm2diff
+com2 = compare fm2 fm2diff
+
+//Question 5
+fm5 = FM(A:[B] [C]; (!B|!C); (B and C);)
+c5 = counting fm5
+valid5 = isValid fm5
+
+fm7 = FM(Root: A I M;
+A: [D] B [C];
+D: (E|F);
+I: J L [K];
+M: (P|N|O)+;
+(!C|!E);
+(!J|C);)
+s7 = configs fm7
+c7 = counting fm7
+d7 = deads fm7
+fo7 = falseOptionals fm7
+
+fmvp = FM(VP1 : [V1] [V2] [V3]; (V2->V3);)
+fmvp2 = FM(R : [F4] F3 (F1|F2);)
+sfmvp = counting fmvp
+sfmvp2 = counting fmvp2
+possible = aggregate { fmvp fmvp2 } 
+           withMapping constraints((V1<->F1);(V2<->F2);(V3<->F3);)
+cpossible = counting possible
+spossible = configs possible
+
+
+//Matrice
+fmFeatures = FM(
+Soft: Licensing Platform Format;
+Platform: (Windows|Mac|Linux)+;
+Licensing: (FreeAndOpen | Freeware | FreewareAdSupported | Shareware)+;
+Format: [TGP] [AVI] [BlueRay] [DVD] [FLV] [Matroska] [MP4] [MPEGPS] [OGG] [QuickTime] [SVCD] [TS] [TOD] [VCD] [WMV];
+)
+
+sfmfeatures = configs fmFeatures
