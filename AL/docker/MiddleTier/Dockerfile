@@ -1,0 +1,10 @@
+FROM ubuntu
+
+RUN apt-get -y update && apt-get install -y software-properties-common 
+RUN add-apt-repository ppa:cwchien/gradle && apt-get -y update
+RUN apt-get install -y git gradle
+RUN apt-get update && apt-get install -y openjdk-7-jdk
+RUN git clone https://github.com/Netflix/recipes-rss.git
+WORKDIR recipes-rss
+RUN ./gradlew clean build
+ENV APP_ENV=dev
