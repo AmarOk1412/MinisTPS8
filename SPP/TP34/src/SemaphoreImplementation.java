@@ -1,21 +1,26 @@
 
 public class SemaphoreImplementation implements SemaphoreInterface {
 
+	//Count blocked Threads
 	int _blocked = 0;
+	
 	@Override
 	public synchronized void up()
 	{
+		//Avoid to deblock blocked threads if we release too much
 		if(_blocked != Integer.MAX_VALUE)
 			++_blocked;
-		if(_blocked <= 0)//Deblock if one is blocked
+		if(_blocked <= 0)//Deblock one Thread is blocked
 			notify();
 	}
 
 	@Override
 	public synchronized void down()
 	{
+		//Avoid to block Threads if we acquire too much
 		if(_blocked != Integer.MIN_VALUE)
-			--_blocked;       //Block one
+			--_blocked;
+		
 		if (_blocked < 0) //wait if not available
 			try {
 				wait();

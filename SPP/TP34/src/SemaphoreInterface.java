@@ -1,5 +1,18 @@
 public interface SemaphoreInterface {
-  public void up();
-  public void down();
-  public int  releaseAll();
-} // EndInterface SemaphoreInterface
+
+	/**
+	 * Release Semaphore
+	 */
+	public void up();
+	
+	/**
+	 * Acquire Semaphore
+	 */
+	public void down();
+	
+	/**
+	 * Release all Threads
+	 * @return
+	 */
+	public int  releaseAll();
+}
