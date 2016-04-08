@@ -1,0 +1,7 @@
+# Task 1
+
+1: On n'a pas besoin d'aller plus loin, car (sqrt(n)² = n) et on ne s'intéresse pas aux valeurs supérieures
+si sqrt(n) n'est pas un entier, on s'arrete à la valeur inférieure.
+
+2: Parce que A[0] n'est pas dans le tableau, et i peut etre premier, donc on ne doit pas le passer à false
+
