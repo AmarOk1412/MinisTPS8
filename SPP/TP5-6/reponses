@@ -4,4 +4,10 @@
 si sqrt(n) n'est pas un entier, on s'arrete à la valeur inférieure.
 
 2: Parce que A[0] n'est pas dans le tableau, et i peut etre premier, donc on ne doit pas le passer à false
+# Task 4
+ 
+No lock/moniteur parce que c'est un array, et qu'on cherche à écrire des cases de ce tableau avec la meme valeur, dans tous les cas ça passe.
 
+# Task 6
+
+i = impair, 2i = pair

@@ -13,6 +13,7 @@ public class SequentialEratosthenesSieve implements PrimeNumberFactory {
 				primes.add(new Integer(2+i));
 			}
 		}
+		System.out.println(primes.size());
 		return primes;
 	}
 	
@@ -30,7 +31,7 @@ public class SequentialEratosthenesSieve implements PrimeNumberFactory {
 				int iPow2 = (int) Math.pow(i, 2);
 				for(int j = iPow2; j <= limit; j += i)
 				{
-					isPrime.set(j-2, false);
+					 isPrime.set(j-2, false);
 				}
 			}
 			i+=1;
