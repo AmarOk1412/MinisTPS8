@@ -1,0 +1,19 @@
+docker run -it -p 8001:80 --rm dd22aa4ec1bf java -jar rss-middletier/build/libs/rss-middletier-*SNAPSHOT.jar
+docker run -it -p 8002:80 --rm dd22aa4ec1bf java -jar rss-edge/build/libs/rss-edge-*SNAPSHOT.jar
+docker run -it -p 8080:8080 --rm tomcat
+
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables -t nat -A PREROUTING -p tcp --dport 8001 -j REDIRECT --to-port 8080
+iptables -t nat -A PREROUTING -p tcp --dport 8002 -j REDIRECT --to-port 8080
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 8001 -j REDIRECT --to-ports 8080
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 8002 -j REDIRECT --to-ports 8080
+
+
+
+
+
+
+
+
+
