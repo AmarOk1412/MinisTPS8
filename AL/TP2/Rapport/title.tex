@@ -1,0 +1,109 @@
+\documentclass{report}
+%packages
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+\usepackage[a4paper]{geometry}
+
+\begin{document}
+	%title
+	\begin{titlepage}
+		\vspace{-20px}
+		\begin{tabular}{l}
+			\textsc{Blin} Sébastien\\
+			\textsc{Collin} Pierre-Henri
+		\end{tabular}
+		\hfill \vspace{10px}\includegraphics[scale=0.1]{esir}\\
+		\vfill
+		\begin{center}
+			\Huge{\'Ecole sup\'erieure d'ing\'enieurs de Rennes}\\
+			\vspace{1cm}
+			\LARGE{2ème année}\\
+			\large{Parcours Informatique}\\
+			\vspace{0.5cm}\hrule\vspace{0.5cm}
+			\LARGE{\textbf{TP 2 AL}}\\
+			\Large{Déploiement de l'application RSS-Reader}
+			\vspace{0.5cm}\hrule
+			\vfill
+			\vfill
+		\end{center}
+		\begin{flushleft}
+			\Large{Sous l'encadrement de~:}\\
+			\vspace{0.2cm}
+			\large{{Temple} Paul}
+		\end{flushleft}
+		\vfill
+	\end{titlepage}
+
+	\section{Génération des images}
+	\section{Création d'une instance applicative}
+	\section{Le multi-instance}
+	\section{Load-balancing entre les instances}
+
+	Le load-balancing entre les différentes instances se font à l'aide de nginx, qui écoute sur le port 80 de la machine. Il suffit d'ajouter ces quelques lignes dans le fichier de configuration (sur Fedora~: \emph{/etc/nginx/nginx.conf})~:
+	\begin{minted}{text}
+http {
+	upstream netflix-rss {
+      least_conn;
+	    server localhost:9092;
+	    server localhost:9091;
+	}
+
+	server {
+	    listen 8000;
+	    location / {
+				proxy_pass http://netflix-rss;
+	    }
+	}
+
+}
+	\end{minted}
+Le \emph{least\_conn} servant à envoyer les connexions au serveur ayant reçu le moins de requêtes. Ici, nous ne gérons que 2 instances sur les ports 9091 et 9092. Si nous décidons de gérer plus d'instances, il faudrait donc rajouter des lignes dans \emph{server}.
+
+
+
+	\section{Des monkeys}
+	Afin de tenter de réagir aux pannes, nous les simulons avec des \emph{Monkeys}. Nous avons donc créé 2 \emph{Monkeys}. Le premier se charge de détruire un des containers, l'autre se charge de rétablir les containers manquants.
+	\subsection{BADMONKEY}
+	\subsubsection{Implémentation}
+	Le premier \emph{Monkey} est implémenté à l'aide d'une simple ligne de bash~:
+	\begin{minted}{bash}
+docker rm $(docker stop $(docker ps | \
+awk '/middletier*|edge*/ {print $13}' | \
+shuf -n 1)) # Bad Monkey, kill a random docker
+	\end{minted}
+	Cette ligne se charge de prendre un docker au hasard parmi les middletier et les edge, le stop et le remove.
+	\subsubsection{Amélioration}
+	On pourrait améliorer ce \emph{Monkey} en le lançant de manière aléatoire, ainsi qu'améliorer le petit morceau de awk (et éviter le \$13).
+	\subsection{GOODMONKEY}
+	\subsubsection{Implémentation}
+	Le premier \emph{Monkey} est implémenté à l'aide d'un petit script python générant les commandes a exécuter~:
+	\begin{minted}{python}
+#!/bin/python
+import commands
+
+MAX_INSTANCE = 2
+
+listeActive = commands.getstatusoutput("docker ps")[1]
+for i in range(1,MAX_INSTANCE+1):
+  if 'middletier' + str(i) not in listeActive:
+    port = 9191 + i
+    print("sudo docker rm middletier{0}".format(i))
+    print("sudo docker run --rm --name middletier{0} -h middletier{0} --link
+		tomcat:tomcat -p {1}:9191 middletier sh middletier.sh&".format(i, port))
+  if 'edge' + str(i) not in listeActive:
+    port = 9090 + i
+    print("sudo docker rm edge{0}".format(i))
+    print("sudo docker run --rm --name edge{0} -h edge{0} --link tomcat:tomcat
+		--link middletier{0}:middletier -p {1}:9090 middletier sh rss-edge.sh&"
+		.format(i, port))
+	\end{minted}
+	Le programme se lançant avec~:
+	\begin{minted}{bash}
+python goodMonkey.py | bash -x
+	\end{minted}
+	\subsubsection{Amélioration}
+	L'éxécution des commandes n'est pas top et devraient être modifiée, les containers se lancent souvent mal et tous en même temps. De plus on devrait mettre en place un cron pour ne pas à avoir à le lancer soi-même.
+\end{document}

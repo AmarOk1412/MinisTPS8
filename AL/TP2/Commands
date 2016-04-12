@@ -1,0 +1,12 @@
+sudo service nginx start
+sudo docker rm edge1 edge2 middletier1 middletier2 tomcat
+sudo docker run --rm -it --name tomcat -h tomcat -p 8000:80 -p 8080:8080 tomcat
+sudo docker run --rm -it --name middletier1 -h middletier1 --link tomcat:tomcat -p 9191:9191 middletier sh middletier.sh
+sudo docker run --rm -it --name edge1 -h edge1 --link tomcat:tomcat --link middletier1:middletier -p 9090:9090 middletier sh rss-edge.sh
+sudo docker run --rm -it --name middletier2 -h middletier2 --link tomcat:tomcat -p 9192:9191 middletier sh middletier.sh
+sudo docker run --rm -it --name edge2 -h edge2 --link tomcat:tomcat --link middletier2:middletier -p 9091:9090 middletier sh rss-edge.sh
+
+
+
+docker rm $(docker stop $(docker ps | awk '/middletier*|edge*/ {print $13}' | shuf -n 1)) # Bad Monkey, kill a random docker
+python goodMonkey.py | bash -x # Relaunch dockers
