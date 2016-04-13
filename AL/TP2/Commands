@@ -1,4 +1,5 @@
 sudo service nginx start
+sudo service docker start
 sudo docker rm edge1 edge2 middletier1 middletier2 tomcat
 sudo docker run --rm -it --name tomcat -h tomcat -p 8000:80 -p 8080:8080 tomcat
 sudo docker run --rm -it --name middletier1 -h middletier1 --link tomcat:tomcat -p 9191:9191 middletier sh middletier.sh
