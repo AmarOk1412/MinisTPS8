@@ -5,7 +5,7 @@ import java.util.concurrent.CyclicBarrier;
 public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 
 	public static ArrayList<Boolean> isPrime = null;
-	private CyclicBarrier barrier = null;
+	static CyclicBarrier barrier = null;
 	private int limitT = 0;
 	
 	public ParallelEratosthenesSieve(int limitThreads) {
@@ -14,13 +14,14 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 	}
 	
 	public void setLimitThreads(int limitThreads) {
-		barrier = new CyclicBarrier(limitThreads+1);
+		barrier = new CyclicBarrier(limitThreads);
 		limitT = limitThreads;
 	}
 	
 	
 	@Override
 	public ArrayList<Integer> getPrimes(Integer limit) {
+		isPrime = new ArrayList<>();
 		ArrayList<Integer> primes = new ArrayList<>();
 		ArrayList<Boolean> isPrimeInternal = eratosthenesSieve(limit);
 		for(int i = 0; i < isPrimeInternal.size(); ++i)
@@ -35,46 +36,38 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 	}
 	
 
-	public ArrayList<Boolean> eratosthenesSieve(Integer limit) {
-
-		isPrime = new ArrayList<>();
-		for(int i = 0; i <= limit-2; ++i)
-		{
-			isPrime.add(true);
-		}
-		ArrayList<SetFalseThread> listeThreads = new ArrayList<>();
-		//Create threads
-		for(int i = 0; i < limitT; ++i)
-		{
-			SetFalseThread thread = new SetFalseThread(barrier, limit);
-			listeThreads.add(thread);
-			thread.start();
-		}
-		int i = 2;
-		int baseThread = Thread.activeCount();
-		//Dispatch work
-		while(Math.pow(i, 2) <= limit)
-		{
-			if(isPrime.get(i-2))
-			{
-				listeThreads.get(i%limitT).addWork(i);
-			}
-			i+=1;
-		}
-		//Stop Barrier
-		try {
+	public ArrayList<Boolean> eratosthenesSieve(Integer n) {
+        barrier = new CyclicBarrier(limitT + 1);
+        ArrayList<RunnableWorker> listWorker = new ArrayList<>();
+        for (int i = 1; i < n; i++)
+            isPrime.add(true);
+        //On dispatch les threads
+        int sqrtInt = (int) Math.sqrt(n+1);
+        for (int i = 0; i < limitT; i++) {
+        	int minRange = (i*sqrtInt/limitT)+1;
+        	int maxRange = (i+1)*sqrtInt/limitT;
+        	//System.out.println("Dispatch entre " + minRange + "-" + maxRange);
+            RunnableWorker runnableWorker = new RunnableWorker(minRange, maxRange, n+1);
+            listWorker.add(runnableWorker);
+            //System.out.println("create a worker" + i);
+            runnableWorker.start();
+        }
+        
+        //On Démarre les Threads
+        try {
 			barrier.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} //Difference with CountDownLatch
-		//Wait for finished
-		//TODO await
-		while(Thread.activeCount() > baseThread)
-		{
-			
 		}
-		return isPrime;
+        
+        //System.out.println("Running");
+        try {
+			barrier.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			e.printStackTrace();
+		}
+        
+        return isPrime;
 	}
 
 }

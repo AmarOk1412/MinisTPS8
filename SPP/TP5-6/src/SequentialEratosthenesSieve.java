@@ -29,7 +29,8 @@ public class SequentialEratosthenesSieve implements PrimeNumberFactory {
 			if(isPrime.get(i-2))
 			{
 				int iPow2 = (int) Math.pow(i, 2);
-				for(int j = iPow2; j <= limit; j += i)
+				int step = (i==2) ? i : 2*i; //To speed up the inner loop
+				for(int j = iPow2; j <= limit; j += step)
 				{
 					 isPrime.set(j-2, false);
 				}
