@@ -16,7 +16,7 @@ public class InfoLogger {
         logger.addHandler(handler);
 	}
 	
-	private static Logger getLogger(){
+	public static Logger getLogger(){
 	    if(logger == null){
 	        new InfoLogger();
 	    }

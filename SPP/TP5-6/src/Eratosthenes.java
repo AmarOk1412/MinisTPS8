@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class Eratosthenes {
 		long end = System.currentTimeMillis();
 		//Calcul de la durée
 		long duration = end - begin;
-		InfoLogger.log(Level.INFO, "duration={0}", new Object[]{duration});
+		InfoLogger.log(Level.INFO, "duration={0}", duration);
 		
 		//On vérifie que les nombres premiers soient bien dans le tableau
 		try (BufferedReader br = new BufferedReader(new FileReader("primes-to-100k.txt")))
@@ -47,7 +46,7 @@ public class Eratosthenes {
 		for(int limitThreads = 1; limitThreads <= 10; ++limitThreads)
 		{
 			Integer limit = new Integer(Below);
-			InfoLogger.log(Level.INFO, "k={0}", new Object[]{limitThreads});
+			InfoLogger.log(Level.INFO, "k={0}", limitThreads);
 			//On récupère les nombres premiers
 			PrimeNumberFactory pnf = new ParallelEratosthenesSieve(limitThreads);
 			long begin = System.currentTimeMillis();
@@ -55,7 +54,7 @@ public class Eratosthenes {
 			long end = System.currentTimeMillis();
 			//Calcul de la durée
 			long duration = end - begin;
-			InfoLogger.log(Level.INFO, "duration={0}", new Object[]{duration});
+			InfoLogger.log(Level.INFO, "duration={0}", duration);
 
 			
 			//On vérifie que les nombres premiers soient bien dans le tableau
@@ -84,7 +83,7 @@ public class Eratosthenes {
 		long end = System.currentTimeMillis();
 		//Calcul de la durée
 		long duration = end - begin;
-		InfoLogger.log(Level.INFO, "duration={0}", new Object[]{duration});
+		InfoLogger.log(Level.INFO, "duration={0}", duration);
 		int numberPrimes = 0;
 		
 		//On vérifie que les nombres premiers soient bien dans le tableau
@@ -120,7 +119,7 @@ public class Eratosthenes {
 			//Calcul de la durée
 			long duration = end - begin;
 			//Calcul de la durée
-			InfoLogger.log(Level.INFO, "duration={0}", new Object[]{duration});
+			InfoLogger.log(Level.INFO, "duration={0}", duration);
 			int numberPrimes = 0;
 
 			//On vérifie que les nombres premiers soient bien dans le tableau
