@@ -51,10 +51,11 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
         	int minRange = (i*sqrtInt/limitT)+1;
         	int maxRange = (i+1)*sqrtInt/limitT;
         	InfoLogger.getLogger().log(Level.FINE, "Thread {0} Dispatch between {1} and {2}", new Object[]{i, minRange, maxRange});//TODO
-        	RunnableWorker runnableWorker = new RunnableWorker(minRange, maxRange, n+1);
+        	RunnableWorker runnableWorker = new RunnableWorker();
             listWorker.add(runnableWorker);
             InfoLogger.log(Level.FINE, "Thread {0} run", i);
             runnableWorker.start();
+            runnableWorker.setParameters(minRange, maxRange, n+1);
         }
         
         //On Démarre les Threads

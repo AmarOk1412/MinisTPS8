@@ -8,7 +8,10 @@ public class RunnableWorker extends Thread implements Runnable {
 	private int _limit;
 
 	//On lui donne l'intervalle
-    public RunnableWorker(int minRange, int maxRange, int limit) {
+    public RunnableWorker() {
+    }
+    
+    public void setParameters(int minRange, int maxRange, int limit) {
     	_min = minRange;
     	_max = maxRange;
     	_limit = limit;
