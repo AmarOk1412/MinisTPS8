@@ -1,8 +1,5 @@
 import java.util.concurrent.BrokenBarrierException;
-
-/**
- * Created by Thomas on 11/04/2016.
- */
+import java.util.logging.Level;
 
 public class RunnableWorker extends Thread implements Runnable {
 	
@@ -10,6 +7,7 @@ public class RunnableWorker extends Thread implements Runnable {
 	private int _max;
 	private int _limit;
 
+	//On lui donne l'intervalle
     public RunnableWorker(int minRange, int maxRange, int limit) {
     	_min = minRange;
     	_max = maxRange;
@@ -18,17 +16,18 @@ public class RunnableWorker extends Thread implements Runnable {
 
     @Override
     public void run() {
+    	//Première barrière pour attendre le démarrage des autres threads
 	    try {
-	        //System.out.println("Thread " + this.getName() + " calling await()");
+	    	InfoLogger.log(Level.FINE, "Thread {0} wait others", this.getName());
 	        ParallelEratosthenesSieve.barrier.await();
-	        //System.out.println("Thread " + this.getName() + " stop await()");
+	        InfoLogger.log(Level.FINE, "Thread {0} is Running", this.getName());
 	    } catch (InterruptedException ex) {
 	        return;
 	    } catch (BrokenBarrierException ex) {
 	        return;
 	    }   
 
-        //System.out.println("Working");
+	    //Réalisation du crible pour l'intervalle donné
         for(int i = _min; i <= _max; ++i)
         {
 	        if(i > 1 && i < _limit && ParallelEratosthenesSieve.isPrime.get(i-2))
@@ -42,10 +41,11 @@ public class RunnableWorker extends Thread implements Runnable {
 			}
         }
 	    
+        //Seconde barrière pour attendre les autres threads
 	    try {
-	        //System.out.println("Thread " + this.getName() + " calling await()");
+	    	InfoLogger.log(Level.FINE, "Thread {0} wait others", this.getName());
 	        ParallelEratosthenesSieve.barrier.await();
-	        //System.out.println("Thread " + this.getName() + " stop await()");
+	        InfoLogger.log(Level.FINE, "Thread {0} is finish", this.getName());
 	    } catch (InterruptedException ex) {
 	        return;
 	    } catch (BrokenBarrierException ex) {

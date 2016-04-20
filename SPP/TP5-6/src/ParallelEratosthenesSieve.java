@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.logging.Level;
 
 public class ParallelEratosthenesSieve implements PrimeNumberFactory {
-
 	public static ArrayList<Boolean> isPrime = null;
 	static CyclicBarrier barrier = null;
 	private int limitT = 0;
 	
 	public ParallelEratosthenesSieve(int limitThreads) {
+		//Ici le +1 sert à pouvoir débloquer la barrière depuis le thread principal
 		barrier = new CyclicBarrier(limitThreads+1);
 		limitT = limitThreads;
 	}
@@ -21,9 +22,11 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 	
 	@Override
 	public ArrayList<Integer> getPrimes(Integer limit) {
+		//On récupère le tableau de booleen
 		isPrime = new ArrayList<>();
 		ArrayList<Integer> primes = new ArrayList<>();
 		ArrayList<Boolean> isPrimeInternal = eratosthenesSieve(limit);
+		//On le transforme en tableau d'entier pour le comparer lors des tests
 		for(int i = 0; i < isPrimeInternal.size(); ++i)
 		{
 			if(isPrimeInternal.get(i))
@@ -31,13 +34,14 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 				primes.add(new Integer(2+i));
 			}
 		}
-		System.out.println(primes.size());
 		return primes;
 	}
 	
 
 	public ArrayList<Boolean> eratosthenesSieve(Integer n) {
+		//AU cas où
         barrier = new CyclicBarrier(limitT + 1);
+		//Initialisation du tableau de booléen entre 1 et n
         ArrayList<RunnableWorker> listWorker = new ArrayList<>();
         for (int i = 1; i < n; i++)
             isPrime.add(true);
@@ -46,10 +50,10 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
         for (int i = 0; i < limitT; i++) {
         	int minRange = (i*sqrtInt/limitT)+1;
         	int maxRange = (i+1)*sqrtInt/limitT;
-        	//System.out.println("Dispatch entre " + minRange + "-" + maxRange);
-            RunnableWorker runnableWorker = new RunnableWorker(minRange, maxRange, n+1);
+        	InfoLogger.log(Level.FINE, "Thread {0} Dispatch between {1} and {2}", new Object[]{i, minRange, maxRange});//TODO
+        	RunnableWorker runnableWorker = new RunnableWorker(minRange, maxRange, n+1);
             listWorker.add(runnableWorker);
-            //System.out.println("create a worker" + i);
+            InfoLogger.log(Level.FINE, "Thread {0} run", i);
             runnableWorker.start();
         }
         
@@ -59,8 +63,9 @@ public class ParallelEratosthenesSieve implements PrimeNumberFactory {
 		} catch (InterruptedException | BrokenBarrierException e) {
 			e.printStackTrace();
 		}
-        
-        //System.out.println("Running");
+
+        InfoLogger.log(Level.FINE, "Threads is running");
+        //On bloque le temps que les threads se finissent
         try {
 			barrier.await();
 		} catch (InterruptedException | BrokenBarrierException e) {
